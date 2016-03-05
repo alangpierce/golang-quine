@@ -8,7 +8,7 @@ func main() {
 
 func getCode() string {
 	tick := "\u0060"
-	prefix := `package main
+	code :=`package main
 
 import "fmt"
 
@@ -18,9 +18,8 @@ func main() {
 
 func getCode() string {
 	tick := "\u0060"
-	prefix := `
-	suffix := `
-	return prefix + tick + prefix + tick + "\n	suffix := " + tick + suffix + tick + suffix
+	code :=
+	return code[:117] + tick + code + tick + code[117:]
 }`
-	return prefix + tick + prefix + tick + "\n	suffix := " + tick + suffix + tick + suffix
+	return code[:117] + tick + code + tick + code[117:]
 }
