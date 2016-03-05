@@ -7,7 +7,7 @@ func main() {
 }
 
 func getCode() string {
-	tick := "`"
+	tick := "\u0060"
 	prefix := `package main
 
 import "fmt"
@@ -17,9 +17,10 @@ func main() {
 }
 
 func getCode() string {
-	tick := "%s"
-	prefix := %s%s%s
-	return fmt.Sprintf(prefix, tick, tick, prefix, tick)
+	tick := "\u0060"
+	prefix := `
+	suffix := `
+	return prefix + tick + prefix + tick + "\n	suffix := " + tick + suffix + tick + suffix
 }`
-	return fmt.Sprintf(prefix, tick, tick, prefix, tick)
+	return prefix + tick + prefix + tick + "\n	suffix := " + tick + suffix + tick + suffix
 }
