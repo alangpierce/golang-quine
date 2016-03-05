@@ -3,21 +3,13 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Print(getCode())
-}
-
-func getCode() string {
 	code :=`package main
 
 import "fmt"
 
 func main() {
-	fmt.Print(getCode())
-}
-
-func getCode() string {
 	code :=
-	return code[:99] + "\u0060" + code + "\u0060" + code[99:]
+	fmt.Print(code[:50] + "\u0060" + code + "\u0060" + code[50:])
 }`
-	return code[:99] + "\u0060" + code + "\u0060" + code[99:]
+	fmt.Print(code[:50] + "\u0060" + code + "\u0060" + code[50:])
 }

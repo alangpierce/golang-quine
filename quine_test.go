@@ -3,6 +3,9 @@ package main
 import (
 	"testing"
 	"io/ioutil"
+	"os"
+	"bytes"
+	"io"
 )
 
 func TestQuine(t *testing.T) {
@@ -12,7 +15,7 @@ func TestQuine(t *testing.T) {
 		return
 	}
 	expectedCode := string(fileContents)
-	actualCode := getCode()
+	actualCode := captureMainStdout()
 
 	firstDifference := findFirstDifference(expectedCode, actualCode)
 	if firstDifference >= 0 {
@@ -23,6 +26,26 @@ func TestQuine(t *testing.T) {
 			"\n\n>>> Actual remaining:\n",
 			actualCode[firstDifference:])
 	}
+}
+
+func captureMainStdout() string {
+	// Taken from http://stackoverflow.com/a/10476304/1154997 . Patch out
+	// stdout with a pipe so that we can capture it.
+	oldStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	outC := make(chan string)
+	go func() {
+		var buf bytes.Buffer
+		io.Copy(&buf, r)
+		outC <- buf.String()
+	}()
+
+	main()
+	w.Close()
+	os.Stdout = oldStdout
+	return <-outC
 }
 
 // findFirstDifference returns the index of the first differing rune in the two
